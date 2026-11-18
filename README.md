@@ -1,6 +1,7 @@
 # eliasfano
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/mikkharin/eliasfano.svg)](https://pkg.go.dev/github.com/mikkharin/eliasfano)
+[![CI](https://github.com/mikkharin/eliasfano/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mikkharin/eliasfano/actions/workflows/ci.yml)
 
 A small, dependency-free Go library for [Elias–Fano](https://en.wikipedia.org/wiki/Elias%E2%80%93Fano_coding)
 encoding of monotonic (non-decreasing) `uint64` sequences. It stores `n`
