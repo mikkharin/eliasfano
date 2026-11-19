@@ -61,6 +61,9 @@ func New(values []uint64) (*Sequence, error) {
 func (s *Sequence) Len() int { return s.n }
 
 // At returns the i-th value. It panics if i is out of range.
+//
+// It takes O(1) time on typical data. In the worst case (large gaps between
+// clustered values) it is linear in Len().
 func (s *Sequence) At(i int) uint64 {
 	if i < 0 || i >= s.n {
 		panic(fmt.Sprintf("eliasfano: index %d out of range [0:%d)", i, s.n))
@@ -71,7 +74,7 @@ func (s *Sequence) At(i int) uint64 {
 }
 
 // LowerBound returns the smallest i with At(i) >= x, or Len() if none.
-// It runs in O(log n).
+// It performs O(log n) calls to At, so it inherits At's worst case.
 func (s *Sequence) LowerBound(x uint64) int {
 	if x > s.max {
 		return s.n

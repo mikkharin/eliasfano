@@ -38,9 +38,14 @@ s.LowerBound(99) // 12 == s.Len(): every value is smaller
 | --- | --- |
 | `New(values []uint64) (*Sequence, error)` | Encodes a sorted slice; returns an error wrapping `ErrNotSorted` otherwise. The input is not retained. |
 | `(*Sequence) Len() int` | Number of values. |
-| `(*Sequence) At(i int) uint64` | The i-th value, effectively O(1). Panics if `i` is out of range, like a slice index. |
-| `(*Sequence) LowerBound(x uint64) int` | Smallest index `i` with `At(i) >= x`, or `Len()`. O(log n). |
+| `(*Sequence) At(i int) uint64` | The i-th value. O(1) on typical data. Panics if `i` is out of range, like a slice index. |
+| `(*Sequence) LowerBound(x uint64) int` | Smallest index `i` with `At(i) >= x`, or `Len()`. O(log n) calls to `At`. |
 | `(*Sequence) SizeInBytes() int` | Approximate size of the encoded data. |
+
+**Complexity caveat:** `At` finds the i-th set bit by scanning forward from a
+sample taken every 512 set bits. If a large gap between clustered values falls
+inside one such block, the scan is linear in `Len()` in the worst case, and
+`LowerBound` inherits this.
 
 A `Sequence` is immutable and safe for concurrent use.
 
